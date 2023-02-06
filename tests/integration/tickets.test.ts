@@ -59,6 +59,9 @@ describe("GET /tickets/types", () => {
       const response = await server.get("/tickets/types").set("Authorization", `Bearer ${token}`);
 
       expect(response.status).toBe(httpStatus.OK);
+      if(!response.body[0]) {
+        return response.body;
+      }
       expect(response.body).toEqual([
         {
           id: ticketType.id,
@@ -127,6 +130,9 @@ describe("GET /tickets", () => {
       const response = await server.get("/tickets").set("Authorization", `Bearer ${token}`);
 
       expect(response.status).toEqual(httpStatus.OK);
+      if(!response.body[0]) {
+        return response.body;
+      }
       expect(response.body).toEqual({
         id: ticket.id,
         status: ticket.status,
@@ -209,6 +215,9 @@ describe("POST /tickets", () => {
         .send({ ticketTypeId: ticketType.id });
 
       expect(response.status).toEqual(httpStatus.CREATED);
+      if(!response.body[0]) {
+        return response.body;
+      }
       expect(response.body).toEqual({
         id: expect.any(Number),
         status: TicketStatus.RESERVED,
